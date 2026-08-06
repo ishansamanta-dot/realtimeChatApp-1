@@ -1,12 +1,12 @@
 import express from "express";
 import "dotenv/config";
-import authRouter from "./routes/auth.route.js"
-import { connectDB } from "./config/db.js";
+import authRouter from "./src/routes/auth.route.js"
+import { connectDB } from "./src/config/db.js";
 import cookieParser from "cookie-parser"
 import cors from "cors"
-import userRouter from "./routes/user.route.js";
-import messageRouter from "./routes/message.route.js";
-import { app, server } from "./socket/socket.js";
+import userRouter from "./src/routes/user.route.js";
+import messageRouter from "./src/routes/message.route.js";
+import { app, server } from "./src/socket/socket.js";
 
 //const app=express();
 const port=process.env.PORT;
