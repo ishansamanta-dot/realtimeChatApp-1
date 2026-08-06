@@ -48,9 +48,9 @@ export async function signup(req,res){
 
         res.cookie("jwt",token,{
             maxAge:7*24*60*60*1000,
-            httpOnly:true,
-            sameSite:"Strict", //prevent xss attacks
-            secure:false,
+            //httpOnly:true,
+            sameSite:"None", //prevent xss attacks
+            secure:true,
             //secure:process.env.NODE_ENV==="production"
         });
         res.status(201).json({success:true,user});
@@ -81,10 +81,10 @@ export async function login(req,res){
 
         res.cookie("jwt",token,{
             maxAge:7*24*60*60*1000,
-            httpOnly:true,
-            sameSite:"Strict", //prevent xss attacks
+            //httpOnly:true,
+            sameSite:"None", //prevent xss attacks
             //secure:process.env.NODE_ENV==="production"
-            secure:false
+            secure:true
         });
 
         res.status(200).json({success:true,user});
