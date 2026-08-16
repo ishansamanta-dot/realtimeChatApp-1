@@ -12,8 +12,8 @@ const handleImageScroll=()=>{
 }
 
   return (
-    <div className='max-w-[45%] w-fit break-all px-[20px] py-[10px] text-slate-100 text-[20px] rounded-tl-none rounded-2xl
-         bg-gradient-to-r from-blue-600 to-indigo-600 relative gap-[10px] flex flex-col left-0 shadow-black/30 shadow-md'>
+    <div className='w-fit max-w-[70%] md:max-w-[60%] lg:max-w-[55%] break-words px-[20px] py-[10px] text-slate-100 text-[20px] rounded-tl-none rounded-2xl
+         bg-[#162545] relative gap-[10px] flex flex-col left-0 shadow-black/30 shadow-md'>
           <div ref={scroll}>
           {image && <img src={image} alt="" className='w-[150px] rounded-lg' onLoad={handleImageScroll}/>}
           {message && <span >{message}</span>}

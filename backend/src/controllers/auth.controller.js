@@ -22,7 +22,7 @@ export async function signup(req,res){
         const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#])[A-Za-z\d@$!%*?&.#]/;
         if (!passwordRegex.test(password)) {
             return res.status(400).json({
-                message: "Password must be contain an uppercase letter, lowercase letter, number, and special character."
+                message: "Password must include uppercase, lowercase, number & special character."
             });
         }
 

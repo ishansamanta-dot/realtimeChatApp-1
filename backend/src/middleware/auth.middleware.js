@@ -9,7 +9,7 @@ const protectAuth=async(req,res,next)=>{
         }
 
         let verifyToken= await jwt.verify(token,process.env.JWT_SECRET_KEY);
-        console.log("verifyToken");
+        //console.log("verifyToken");
         req.userId=verifyToken.userId;
         next()
 
