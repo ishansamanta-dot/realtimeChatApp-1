@@ -18,6 +18,9 @@ const getMessage=()=>{
             try{
                 let result=await axios.get(`${serverurl}/api/message/get/${selectedUser._id}`,{withCredentials:true});
                 dispatch(setMessages(result.data));
+
+                await axios.put(`${serverurl}/api/message/read/${selectedUser._id}`,{withCredentials:true});
+
             }catch(err){
                 console.log(err);
             }

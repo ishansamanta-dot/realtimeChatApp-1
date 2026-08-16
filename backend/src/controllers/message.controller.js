@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import uploadOnCloudinary from "../config/cloudinary.js"
 import { upload } from "../middleware/multer.js"
  import Conversation from "../model/conversation.js"
@@ -57,8 +58,60 @@ export const getMessages=async(req,res)=>{
             return res.status(200).json([]);
         }
 
+        await Message.updateMany(
+            {
+                sender:receiver,
+                receiver:sender,
+                seen:false
+            },
+           {$set: {
+                seen:true
+            }}
+        );
+
         return res.status(200).json(conversation?.messages)
     }catch(err){
         return res.status(500).json({message:`get Message error ${err.message}`});
+    }
+}
+
+export const markMessageAsRead=async (req,res)=>{
+    try{
+        let sender=req.userId
+        let {receiver}=req.params
+
+        await Message.updateMany(
+            {
+                sender:receiver,
+                receiver:sender,
+                seen:false
+            },
+            {$set:{
+                seen:true
+            }}
+        );
+        return res.status(200).json({ message:"Messages marked as read"});
+
+    }catch(err){ 
+        return res.status(500).json({ message:`mark messages read error ${err.message}`});
+    }
+}
+
+export const getUnreadMessages=async(req,res)=>{
+    try{
+
+        let messages=await Message.find({
+            receiver:req.userId,
+            seen:false
+        });
+
+        return res.status(200).json(messages);
+
+    }catch(err){
+
+        return res.status(500).json({
+            message:`get unread messages error ${err.message}`
+        });
+
     }
 }

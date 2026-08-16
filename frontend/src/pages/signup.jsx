@@ -35,7 +35,6 @@ function Signup() {
 
             setloading(false)
         }catch(err){
-            //console.log(err.response?.data);
             setloading(false)
             seterr(err.response.data.message)
         }
@@ -58,7 +57,7 @@ function Signup() {
                 <span className='absolute top-[13px] right-[20px] text-[22px] text-gray-400 font-semibold cursor-pointer' onClick={()=>setshow(prev=>!prev)}>{show?<FaEye/>:<FaEyeSlash/>}</span>
             </div>
 
-    <div className='h-[10px] px-[15%]'>{err && <p className='text-white'>{err}</p>}</div>
+    <div className='h-[10px] px-[15%] flex'>{err && <p className='text-white'>{err}</p>}</div>
 
             <button type="submit" className='px-[20px] py-[10px] bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl shadow-blue-500/20 shadow-xl text-[20px] w-[200px] mt-[20px] font-semibold hover:shadow-inner'>{loading?"Loading..":"Sign Up"}</button>
             <p className='cursor-pointer text-white ' onClick={()=>navigate("/login")}> Already Have an Account ? <span className='text-blue-400 hover:text-blue-300 text-[bold] px-[20px]'>Login</span></p>

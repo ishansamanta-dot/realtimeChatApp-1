@@ -14,7 +14,7 @@ import { setMessages } from '../redux/messageSlice';
 
 
 function messageArea() {
-  let {selectedUser,userData,socket}=useSelector(state=>state.user)
+  let {selectedUser,userData,socket,onlineUsers}=useSelector(state=>state.user)
   let [showPicker,SetShowPicker]=useState(false)
   let dispatch=useDispatch()
   let [input,setInput]=useState("")
@@ -27,6 +27,22 @@ function messageArea() {
   let image=useRef()
   let {messages}=useSelector(state=>state.message)
 
+
+  useEffect(() => {
+    if (!selectedUser) return
+    const markAsRead = async () => {
+        try {
+            await axios.put(
+                `${serverurl}/api/message/read/${selectedUser._id}`,
+                {},
+                { withCredentials: true }
+            )
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    markAsRead()
+}, [selectedUser])
 
     const handleImage=async(e)=>{
     try{
@@ -60,31 +76,40 @@ function messageArea() {
     }
   }
 
-  useEffect(()=>{
-    if (!socket) return;
-    
-    socket.on("newMessage",(mess)=>{
-      dispatch(setMessages([...messages,mess]))
-    })
-    return ()=>socket.off("newMessage")
-  },[messages,setMessages])
+  useEffect(() => {
+  if (!socket) return
+
+  const handleNewMessage = (message) => {
+    dispatch(setMessages(prev => [...prev, message]))
+  }
+
+  socket.on("newMessage", handleNewMessage)
+
+  return () => {
+    socket.off("newMessage", handleNewMessage)
+  }
+}, [socket, dispatch])
 
 
   return (
     <div className={`lg:w-[70%] ${selectedUser?"flex":"hidden"} lg:flex w-full h-full bg-[#070b1a] border-l-2 border-slate-950 relative`}>
       {selectedUser && 
       <div className='w-full h-[100vh] flex flex-col'>
-        <div className='w-full h-[80px] bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 rounded-b-[30px]  shadow-blue-500/20 shadow-xl px-[20px] gap-[15px] flex items-center'>
+        <div className='w-full h-[75px] bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 rounded-b-[30px]  shadow-blue-500/20 shadow-xl px-[10px] gap-[13px] flex items-center'>
                   <div className='cursor-pointer'>
                       <IoIosArrowRoundBack className='w-[40px] h-[40px] 'onClick={()=>dispatch(setSelectedUser(null))}/>
                   </div>
-                  <div className='w-[50px] h-[50px] rounded-full overflow-hidden flex justify-center items-center bg-slate-400 shadow-blue-500/20 shadow-xl cursor-pointer'> 
-                      <img src={selectedUser?.profilepic || dp} alt='' className='h-[100%]'/>
+                  <div className='relative w-[50px] h-[50px] rounded-full flex justify-center items-center bg-slate-400 shadow-blue-500/20 shadow-xl '> 
+                      <img src={selectedUser?.profilepic || dp} alt='' className='h-[100%] rounded-full overflow-hidden'/>
+
+                      {onlineUsers?.includes(selectedUser._id) &&
+                          <span className='w-[10px] h-[10px] rounded-full absolute bottom-[6px] right-[0px] bg-[#3aff20]'>
+                          </span>}
                   </div>
-                  <h1 className='text-gray-900 font-bold text-[22px]'>{selectedUser?.fullname}</h1>
+                  <h1 className='text-gray-900 font-bold text-[22px] truncate'>{selectedUser?.fullname}</h1>    
         </div>
 
-        <div className='w-full h-full flex flex-col gap-[20px] py-[30px] px-[20px] overflow-auto pb-[100px]'>
+        <div className='w-full h-[80%]  flex flex-col gap-[20px] py-[30px] px-[20px] overflow-auto'>
           {showPicker && <div className='bottom-[120px] left-[20px] absolute'>
             <EmojiPicker width={250} height={350} theme="dark" className='shadow-lg z-[100] text-slate-300 hover:text-blue-300' onEmojiClick={onEmojiClick}/> </div>}
             {messages && messages.map((mess)=>(

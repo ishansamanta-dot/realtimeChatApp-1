@@ -41,8 +41,9 @@ function login() {
   return (
     <div className='w-full h-[100vh] bg-[#070b1a] flex items-center justify-center'>
         <div className='w-full max-w-[500px] h-[600px] bg-[#121b32] rounded-lg shadow-black/40 shadow-xl flex flex-col gap-[40px]'>
-        <div className='w-full h-[170px] bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 rounded-b-[30%]  shadow-indigo-500/20 shadow-xl flex items-center justify-center'>
-            <h1 className='text-white font-bold text-[30px]'>Login to <span className='text-white'>ChatVerse</span></h1>
+        <div className='w-full h-[170px] gap-[10px] bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 rounded-b-[30%]  shadow-indigo-500/20 shadow-xl flex flex-col items-center justify-center'>
+            <h1 className='text-white font-bold text-[30px]'>Login to <span className='text-black'>ChatVerse</span></h1>
+            <h2 className='text-slate-300 font-bold text-[15px]'>Welcome back! Please login to continue</h2>
         </div>
 
         <form className='w-full flex flex-col gap-[20px] items-center'onSubmit={handlelogin}>
@@ -53,7 +54,7 @@ function login() {
                 <span className='absolute top-[13px] right-[20px] text-[22px] text-gray-400 font-semibold cursor-pointer' onClick={()=>setshow(prev=>!prev)}>{show?<FaEye/>:<FaEyeSlash/>}</span>
             </div>
 
-<div className='h-[10px] px-[15%]'>{err && <p className='text-white'>{err}</p>}</div>
+<div className='h-[10px] px-[15%] flex'>{err && <p className='text-white'>{err}</p>}</div>
 
             <button className='px-[20px] py-[10px] bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl shadow-blue-500/20 shadow-xl text-[20px] w-[200px] mt-[20px] font-semibold hover:shadow-inner'>{loading?"loading..":"Login"}</button>
             <p className='cursor-pointer text-white' onClick={()=>navigate("/signup")}> Want to create a new account ? <span className='text-blue-400 hover:text-blue-300 text-[bold] px-[20px]'>Sign up</span></p>
