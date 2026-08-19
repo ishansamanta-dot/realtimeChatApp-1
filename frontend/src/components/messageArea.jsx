@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosArrowRoundBack, IoIosVideocam} from "react-icons/io";
 import dp from "../assets/blank-dp.png"
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import SenderMessage from './senderMessage';
 import ReceiverMessage from './receiverMessage';
 import { serverurl } from '../main';
 import { setMessages } from '../redux/messageSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 function messageArea() {
@@ -20,6 +21,7 @@ function messageArea() {
   let [input,setInput]=useState("")
   let [frontendImage,setFrontendImage]=useState("")
   let [backendImage,setBackendImage]=useState("")
+  let navigate=useNavigate()
   
   const onEmojiClick=(emojiData)=>{
   setInput(prevInput=>prevInput+emojiData.emoji)}
@@ -44,6 +46,8 @@ function messageArea() {
     markAsRead()
 }, [selectedUser])
 
+
+
     const handleImage=async(e)=>{
     try{
       let file=e.target.files[0]
@@ -53,6 +57,7 @@ function messageArea() {
 
     }
   }
+
 
   const handleSendMessage=async(e)=>{
     e.preventDefault()
@@ -76,19 +81,24 @@ function messageArea() {
     }
   }
 
+  
   useEffect(() => {
   if (!socket) return
-
   const handleNewMessage = (message) => {
-    dispatch(setMessages(prev => [...prev, message]))
+    dispatch(setMessages([...messages, message]))
+    if (selectedUser?._id?.toString() === message.sender?.toString()) {
+      axios.put(
+        `${serverurl}/api/message/read/${selectedUser._id}`,
+        {},
+        { withCredentials: true }
+      ).catch(err => console.log(err))
+    }
   }
-
   socket.on("newMessage", handleNewMessage)
-
   return () => {
     socket.off("newMessage", handleNewMessage)
   }
-}, [socket, dispatch])
+}, [socket, dispatch, selectedUser, messages])
 
 
   return (
@@ -99,7 +109,10 @@ function messageArea() {
                   <div className='cursor-pointer'>
                       <IoIosArrowRoundBack className='w-[40px] h-[40px] 'onClick={()=>dispatch(setSelectedUser(null))}/>
                   </div>
-                  <div className='relative w-[50px] h-[50px] rounded-full flex justify-center items-center bg-slate-400 shadow-blue-500/20 shadow-xl '> 
+                  <div className='absolute cursor-pointer right-[35px]'>
+                    <IoIosVideocam className='w-[45px] h-[35px]'onClick={()=>navigate("/call")}/>
+                  </div>
+                  <div className='relative w-[50px] h-[50px] rounded-full flex justify-center border-2 border-black items-center bg-slate-400 shadow-blue-500/20 shadow-xl '> 
                       <img src={selectedUser?.profilepic || dp} alt='' className='h-[100%] rounded-full overflow-hidden'/>
 
                       {onlineUsers?.includes(selectedUser._id) &&
@@ -121,8 +134,8 @@ function messageArea() {
 
       {!selectedUser && <div className='w-full h-full flex flex-col justify-center items-center'>
       <h1 className='text-gray-200 font-bold text-[50px]'>Welcome to ChatVerse</h1>  
-      <span className='text-gray-400 font-semibold text-[30px]'>Where Conversations Connect</span>
-      {/*<span className='text-gray-400 font-semibold text-[30px]'>Connect. Chat. Belong.</span>*/}
+      {/*<span className='text-gray-400 font-semibold text-[30px]'>Where Conversations Connect</span>*/}
+      <span className='text-gray-400 font-semibold text-[30px]'>Connect....  Chat...  Belong...</span>
       </div>} 
 
 

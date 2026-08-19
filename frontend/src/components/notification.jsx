@@ -113,8 +113,8 @@ const handleReject = async (requestId) => {
                       </div>
 
                       <div className='w-full justify-around flex mt-[18px] '>
-                        <button className='py-[5px] bg-red-600 hover:bg-red-500 rounded-2xl shadow-blue-500/20 shadow-lg text-[20px] w-[85px] font-semibold hover:shadow-inner' onClick={() => handleReject(request._id)}>Reject</button>
-                        <button className='py-[5px] bg-emerald-600 hover:bg-emerald-500 rounded-2xl shadow-blue-500/20 shadow-lg text-[20px] w-[85px]  font-semibold hover:shadow-inner' onClick={() => handleAccept(request._id)}>Accept</button>
+                        <button className='py-[5px] bg-red-600 hover:bg-red-500 rounded-xl shadow-blue-500/20 shadow-lg text-[20px] w-[85px] font-semibold hover:shadow-inner' onClick={() => handleReject(request._id)}>Reject</button>
+                        <button className='py-[5px] bg-emerald-600 hover:bg-emerald-500 rounded-xl shadow-blue-500/20 shadow-lg text-[20px] w-[85px]  font-semibold hover:shadow-inner' onClick={() => handleAccept(request._id)}>Accept</button>
                       </div>
               </div>
             ))}

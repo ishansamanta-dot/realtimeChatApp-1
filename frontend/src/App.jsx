@@ -12,6 +12,8 @@ import { serverurl } from './main'
 import { setOnlineUsers, setSocket } from './redux/userSlice'
 import Notification from './components/notification'
 import Friends from './components/friends'
+import VideoCall from './components/videoCall'
+
 
 function App() {
   getCurrentUser()
@@ -50,8 +52,9 @@ function App() {
       <Route path='/signup' element={!userData?<Signup/>:<Navigate to="/profile"/>}/>
       <Route path='/' element={userData?<Home/>:<Navigate to="/login"/>}/>
       <Route path='/profile' element={userData?<Profile/>:<Navigate to="/signup"/>}/>
-      <Route path='/notification' element={<Notification/>} />
-      <Route path='/friends' element={<Friends/>} />  
+      <Route path='/notification' element={userData?<Notification/>:<Navigate to="/login"/>} />
+      <Route path='/friends' element={userData?<Friends/>:<Navigate to="/login"/>} />
+      <Route path="/call"element={userData ? <VideoCall /> : <Navigate to="/login" />}/>
     </Routes>
   )
 }

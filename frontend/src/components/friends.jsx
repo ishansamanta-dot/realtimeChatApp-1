@@ -138,7 +138,7 @@ const handleDeleteFriend = async (friendId) => {
                       </div>
 
                       <div className='w-full justify-around flex mt-[5px] '>
-                        <button className='py-[3px] bg-red-600 hover:bg-red-500 rounded-2xl shadow-blue-500/20 shadow-lg text-[20px] w-[90px] font-semibold hover:shadow-inner' onClick={() => handleDeleteFriend(user._id)}>Delete</button>
+                        <button className='py-[3px] bg-red-600 hover:bg-red-500 rounded-xl shadow-blue-500/20 shadow-lg text-[20px] w-[90px] font-semibold hover:shadow-inner' onClick={() => handleDeleteFriend(user._id)}>Delete</button>
                       </div>
               </div>
             ))}
@@ -176,7 +176,7 @@ const handleDeleteFriend = async (friendId) => {
                       </div>
 
                       <div className='w-full justify-around flex mt-[7px] '>
-                        <button disabled={sentRequests.includes(user._id)} className={`py-[3px] rounded-2xl shadow-blue-500/20 shadow-lg text-[20px] w-[150px] font-semibold hover:shadow-inner ${sentRequests.includes(user._id)? "bg-gray-600 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-500"}` }onClick={() => handleSendRequest(user._id)}>{sentRequests.includes(user._id) ? "Pending..." : "Send Request"}</button>
+                        <button disabled={sentRequests.includes(user._id)} className={`py-[3px] rounded-xl shadow-blue-500/20 shadow-lg text-[20px] w-[150px] font-semibold hover:shadow-inner ${sentRequests.includes(user._id)? "bg-gray-600 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-500"}` }onClick={() => handleSendRequest(user._id)}>{sentRequests.includes(user._id) ? "Pending..." : "Send Request"}</button>
                       </div>
               </div>
             ))}

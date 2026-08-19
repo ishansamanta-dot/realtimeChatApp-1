@@ -14,7 +14,7 @@ import { IoIosNotifications } from "react-icons/io"
 
 
 function sidebar() {
-    let {userData,suggestedUsers,selectedUser,onlineUsers,searchData,socket}=useSelector(state=>state.user)
+    let {userData,selectedUser,onlineUsers,searchData,socket}=useSelector(state=>state.user)
     let [search,setsearch]=useState(false)
     let [input,setinput]=useState("")
     let dispatch=useDispatch()
@@ -66,22 +66,33 @@ function sidebar() {
 
     }, [userData])
 
-    const getUnreadMessages=async()=>{
-    try{
+    const getUnreadMessages = async () => {
+  try {
+    let result = await axios.get(
+      `${serverurl}/api/message/unread`,
+      { withCredentials: true }
+    );
 
-        let result=await axios.get(
-            `${serverurl}/api/message/unread`,
-            {withCredentials:true}
-        );
-
-        setUnreadMessages(result.data);
-
-        }catch(err){
-           console.log(err);
-        }
+    let data = result.data
+    if (selectedUser) {
+      data = data.filter(
+        item => item.sender?.toString() !== selectedUser._id?.toString()
+      )
     }
-    useEffect(() => {
+
+    setUnreadMessages(data);
+
+  } catch(err) {
+     console.log(err);
+  }
+}
+
+useEffect(() => {
   getUnreadMessages()
+}, [])
+
+// Keep socket listener separate, still reacting to selectedUser/socket
+useEffect(() => {
   if (!socket) return
   const handleNewMessage = (message) => {
     if (selectedUser?._id?.toString() === message.sender?.toString()) {
@@ -116,7 +127,7 @@ function sidebar() {
       <div className='w-full h-[220px] bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 rounded-b-[30%] shadow-blue-500/20 shadow-xl px-[20px] py-[10px] flex flex-col '>
 
            <div className='w-full flex justify-between items-center' >
-               <h1 className='text-white font-bold text-[35px]'>ChatVerse</h1>
+               <h1 className='text-black font-bold text-[35px]'>ChatVerse</h1>
                   <div className='w-[30%] px-[8px] justify-around flex'>
                     <FaUserFriends className='bg-transparent size-[24px] cursor-pointer' onClick={()=>navigate("/friends")} />
                     <IoIosNotifications className='bg-transparent size-[25px] cursor-pointer' onClick={()=>navigate("/notification")} />
@@ -125,7 +136,7 @@ function sidebar() {
         <div className='w-full flex mb-[10px] py-[7px] justify-between items-center'>
             <h1 className='text-gray-900 font-bold text-[24px]'>Hii - {userData.fullname}</h1>
               <div className='w-[55px] h-[55px] rounded-full overflow-hidden flex justify-center items-center bg-slate-400  shadow-blue-500/20 shadow-xl cursor-pointer border-2 border-black'onClick={()=>navigate("/profile")}> 
-                 <img src={userData.profilepic || dp} alt='' className='h-[100%] '/>
+                 <img src={userData.profilepic || dp} alt='' className='h-[100%]'/>
               </div> 
         </div>
              {!search && <div className='w-[45px] h-[45px] rounded-full overflow-hidden flex justify-center items-center bg-[#1a2440] shadow-black/20 shadow-md'onClick={()=>setsearch(true)}>

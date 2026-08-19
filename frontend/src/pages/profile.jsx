@@ -3,9 +3,10 @@ import dp from "../assets/blank-dp.png"
 import axios from 'axios';
 import { IoCameraOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosArrowRoundBack,IoMdMail } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
-import { FaShuffle } from "react-icons/fa6";
+import { FaShuffle} from "react-icons/fa6";
+import {FaUserTie} from "react-icons/fa"
 import { serverurl } from '../main';
 import { setUserData } from '../redux/userSlice';
 
@@ -120,16 +121,24 @@ function profile() {
     </div>
          
   
-      <button className='flex items-center justify-center gap-[5px] mt-[8px] py-[10px] bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl shadow-blue-500/20 shadow-xl text-[13px] w-[130px] h-[35px] font-bold hover:shadow-inner' onClick={handleRnadomAvatar}>
+      <button className='flex items-center justify-center gap-[5px] mt-[8px] py-[10px] bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl shadow-blue-500/20 shadow-lg text-[13px] w-[130px] h-[35px] font-bold hover:shadow-inner' onClick={handleRnadomAvatar}>
         <FaShuffle />Random Avatar
       </button>
     
 
          <form className='w-[95%] max-w-[500px] h-[500px] flex flex-col gap-[18.5px] items-center justify-center mt-[18px]' onSubmit={handleProfile}>
           <input type='file' accept='image/*' ref={profilepic} hidden  onChange={handleImage}/>
-          <input type='text' readOnly className='w-[80%] h-[50px] outline-none text-[19px] text-slate-500 border-2 border-[#26355a] px-[20px] py[10px] bg-[#1a2440] rounded-lg shadow-black/20 shadow-md'value={userData.fullname}/>
-          <input type='email' readOnly className='w-[80%] h-[50px] outline-none text-[19px] text-slate-500 border-2 border-[#26355a] px-[20px] py[10px] bg-[#1a2440] rounded-lg shadow-black/20 shadow-md'value={userData.email}/>
+
+          <div className='flex w-[80%] h-[50px] bg-[#1a2440] border-2 border-[#26355a] overflow-hidden rounded-lg shadow-black/20 shadow-md px-[15px] items-center'>
+              <FaUserTie className='size-[25px]'/>
+              <input type='text' readOnly className='w-full h-full outline-none text-[19px] text-slate-400 px-[15px] py[10px] bg-[#1a2440] cursor-not-allowed'value={userData.fullname}/>
+          </div>
           
+          <div className='flex w-[80%] h-[50px] bg-[#1a2440] border-2 border-[#26355a] overflow-hidden rounded-lg shadow-black/20 shadow-md px-[15px] items-center'>
+              <IoMdMail className='size-[27px]'/>
+              <input type='text' readOnly className='w-full h-full outline-none text-[19px] text-slate-400 px-[15px] py[10px] bg-[#1a2440] cursor-not-allowed'value={userData.email}/>
+          </div>
+         
           <div className='relative w-[80%]'>
           <textarea
                  placeholder="Bio: Tell us about yourself..."
@@ -164,7 +173,7 @@ function profile() {
 
       <div className='h-[1px] mt-0'>{err && <p className='text-white'>{err}</p>}</div>
 
-          <button className='px-[20px] py-[10px] bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl shadow-blue-500/20 shadow-xl text-[20px] w-[200px] mt-[8px] font-semibold hover:shadow-inner'disabled={saving}>{saving?"saving...":"Save Profile"}</button>
+          <button className='px-[20px] py-[10px] bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl shadow-blue-500/20 shadow-lg text-[20px] w-[200px] mt-[8px] font-semibold hover:shadow-inner'disabled={saving}>{saving?"saving...":"Save Profile"}</button>
          </form>
 
     </div>

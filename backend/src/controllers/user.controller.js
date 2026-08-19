@@ -22,6 +22,11 @@ export const editProfile=async(req,res)=>{
         let {bio,hobbies}=req.body
         let profilepic=req.body.profilepic;
 
+        // Make single hobby into array
+        if (!Array.isArray(hobbies)) {
+            hobbies = [hobbies]
+        }
+
         if(bio.length>70){
             return res.status(400).json({message:"Bio cannot exceed 70 characters."});
         }
@@ -346,3 +351,5 @@ export const deleteFriend = async (req, res) => {
         });
     }
 };
+
+
