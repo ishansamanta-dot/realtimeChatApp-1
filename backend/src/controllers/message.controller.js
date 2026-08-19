@@ -75,6 +75,8 @@ export const getMessages=async(req,res)=>{
     }
 }
 
+
+
 export const markMessageAsRead=async (req,res)=>{
     try{
         let sender=req.userId
@@ -96,6 +98,7 @@ export const markMessageAsRead=async (req,res)=>{
         return res.status(500).json({ message:`mark messages read error ${err.message}`});
     }
 }
+
 
 export const getUnreadMessages=async(req,res)=>{
     try{

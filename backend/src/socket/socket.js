@@ -1,7 +1,6 @@
 import http from "http"
 import express from "express"
 import { Server } from "socket.io"
-//import receiverMessage from "../../../frontend/src/components/receiverMessage"
 
 let app=express()
 
@@ -25,6 +24,7 @@ io.on("connection",(Socket)=>{
         //userId:socketid
     }
     io.emit("getOnlineUsers",Object.keys(userSocketMap))
+
 
     Socket.on("disconnect",()=>{
         delete userSocketMap[userId]

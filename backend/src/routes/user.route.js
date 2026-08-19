@@ -2,6 +2,7 @@ import express from "express";
 import {acceptFriendRequest, deleteFriend, editProfile, getCurrentUser, getFriendRequests, getFriends, getSentFriendRequests, getSuggestedUsers, rejectFriendRequest, search, sendFriendRequest } from "../controllers/user.controller.js";
 import protectAuth from "../middleware/auth.middleware.js";
 import { upload } from "../middleware/multer.js";
+import { getZegoToken } from "../controllers/auth.controller.js";
 
 const userRouter=express.Router();
 
@@ -17,5 +18,6 @@ userRouter.put("/friend-request/accept/:requestId",protectAuth,acceptFriendReque
 userRouter.put("/friend-request/reject/:requestId",protectAuth,rejectFriendRequest);
 userRouter.get("/friends",protectAuth,getFriends);
 userRouter.delete("/friends/:friendId",protectAuth,deleteFriend);
+userRouter.get("/zego-token/:roomID", protectAuth, getZegoToken);
 
 export default userRouter;

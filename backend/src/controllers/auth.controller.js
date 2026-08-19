@@ -1,6 +1,8 @@
 import genToken from "../config/jwt.js";
 import User from "../model/user.js";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+
+import { generateToken04 } from "../config/zegoServerAssistant.js";
 
 export async function signup(req,res){
     const {fullname,email,password}=req.body
@@ -103,3 +105,54 @@ export const logout=async(req,res)=>{
         return res.status(500).json({message:`Logout error ${err}`});
     }
 }
+
+
+
+export const getZegoToken = async (req, res) => {
+    try {
+
+        const userID = String(req.userId);
+
+        const { roomID } = req.params;
+
+        const appID = Number(process.env.ZEGO_APP_ID);
+
+        const serverSecret =
+            process.env.ZEGO_SERVER_SECRET;
+
+        if (!appID || !serverSecret) {
+            return res.status(500).json({
+                message: "ZEGO credentials are missing"
+            });
+        }
+
+        if (!roomID) {
+            return res.status(400).json({
+                message: "Room ID is required"
+            });
+        }
+
+        const token = generateToken04(
+            appID,
+            userID,
+            serverSecret,
+            3600,
+            ""
+        );
+
+        return res.status(200).json({
+            appID,
+            token,
+            userID,
+            roomID
+        });
+
+    } catch (err) {
+
+        console.error("ZEGO token error:", err);
+
+        return res.status(500).json({
+            message: `ZEGO token error: ${err.message}`
+        });
+    }
+};
