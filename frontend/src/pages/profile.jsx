@@ -111,7 +111,7 @@ function profile() {
 
         <div className='absolute -top-[40px] bg-slate-400 rounded-full ring-4 ring-blue-500 shadow-indigo-500/20 shadow-xl cursor-pointer' onClick={()=>profilepic.current.click()}>
 
-  <div className='w-[125px] h-[125px] rounded-full  overflow-hidden'> 
+  <div className='w-[125px] h-[125px] rounded-full  overflow-hidden flex justify-center'> 
      <img src={frontendImage || dp} alt='' className='h-[100%]'/>
   </div>
 

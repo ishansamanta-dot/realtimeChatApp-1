@@ -140,7 +140,13 @@ function messageArea() {
 
 
           {selectedUser &&  <div className='w-full lg:w-[70%] h-[100px] fixed bottom-[5px] flex items-center justify-center'>
-            <img src={frontendImage || undefined} alt="" className='w-[80px] bottom-[100px] right-[20%] absolute shadow-lg shadow-gray-400' />
+
+            {frontendImage &&(
+              <div className='absolute w-[100px] bottom-[100px] right-[20%]'>
+                <img src={frontendImage || undefined} alt="" className='w-[80px] bottom-[100px] right-[20%] absolute shadow-lg shadow-gray-400' />
+              </div>
+            )}
+            
         <form className='w-[95%] lg:w-[70%] h-[60px] bg-[#121b32] border-slate-700 flex items-center px-[20px] gap-[20px] rounded-full shadow-black/20 shadow-md'onSubmit={handleSendMessage}>
           <div onClick={()=>SetShowPicker(prev=>!prev)}>
             <RiEmojiStickerLine className='w-[25px] h-[25px] text-white cursor-pointer'/>
